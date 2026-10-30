@@ -1,0 +1,28 @@
+name: Verify GeoWork Netlify temporary preview
+on:
+  push:
+    paths:
+      - ".github/workflows/geowork-verify-preview.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify homepage and pricing are publicly reachable
+        run: |
+          set -euo pipefail
+          for path in / /pricing/ /blog/; do
+            status=$(curl -L -sS --connect-timeout 10 --max-time 25 -o /tmp/geo-page.html -w "%{http_code}" "https://magnificent-nougat-e1d040.netlify.app${path}")
+            echo "${path}: HTTP ${status}"
+            head -c 170 /tmp/geo-page.html | tr '\n' ' '
+            echo
+            if [ "${status}" != "200" ]; then
+              exit 1
+            fi
+            grep -qi "GeoWork" /tmp/geo-page.html || { echo 'GeoWork brand not found'; exit 1; }
+          done
+          echo "All 3 URLs returned HTTP 200 with GeoWork branding."
