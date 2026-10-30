@@ -1,6 +1,8 @@
-# GeoWork implementation / deployment
+# GeoWork — deployment guide
 
-## Local
+## Application
+Astro 7 website with first-party administration at `/admin/`, protected APIs and Netlify Blobs object storage. No external CMS and no external database needed for the initial editorial workflow.
+
 ```bash
 cd geowork
 npm install
@@ -8,29 +10,26 @@ npm run check
 npm run build
 ```
 
-## Hosting
-Astro site uses `@astrojs/netlify` and Netlify Database for its own CMS.
-- Repository: `offych-git/desktop`
+## Netlify production site
+- Existing empty site: https://app.netlify.com/projects/geowork-preview
+- Repo: `offych-git/desktop`
+- Branch: `main`
 - Base directory: `geowork`
-- Build: `npm run build`
-- Publish: `dist`
-- Node: 24
+- Build command: `npm run build`
+- Publish directory: `dist`
+- Node version: 24
 
-Netlify project already reserved: https://app.netlify.com/projects/geowork-preview
+The connected Netlify tool currently cannot link GitHub or upload deploys. The site is **not** live until that connection and first deploy are completed.
 
-**Important:** the current connector cannot attach GitHub or deploy to that existing Netlify project. The empty project is not an operational site. A one-off anonymous preview has a password and expires; do not deliver it to the customer.
+## CMS credentials
+Configure these site environment variables with Functions scope, and redeploy:
+- `CMS_ADMIN_EMAIL`
+- `CMS_ADMIN_PASSWORD_HASH` (generate with `npm run cms:password`)
+- `CMS_SESSION_SECRET` (random >=32 characters)
 
-## Customer content admin
-- Admin URL after a successful deployment: `https://geowork-preview.netlify.app/admin/`
-- Login: first-party email and password, **no GitHub token**.
-- Database: auto-provisioned Netlify Postgres when plan supports it, via migration.
-- Images: Netlify Blobs.
-- Set `CMS_ADMIN_EMAIL`, `CMS_ADMIN_PASSWORD_HASH`, and `CMS_SESSION_SECRET` in Netlify site environment with Functions scope; details in `CMS_HANDOFF.md`.
-- There are no default credentials. Do not send the user's password through chat.
-- No external CMS registrations are required.
+Do not commit credentials. The client does not need a GitHub token. The admin is `https://geowork-preview.netlify.app/admin/` after the first successful deploy.
 
-## Client handoff
-Read `CMS_HANDOFF.md`. Configure the customer-owned accounts, perform real login, publishing and image upload tests. If Netlify Database is unavailable on the current plan, resolve the hosting/backend plan before claiming operational readiness.
+See [CMS_HANDOFF.md](CMS_HANDOFF.md) for the complete client handoff and test checklist.
 
-## Contact forms
-Netlify Forms are defined in the frontend; they need a working deployed site and form-processing email notification configured for `contact@geowork.us`.
+## Contact
+Set Netlify Forms notifications for `contact@geowork.us` and verify a real submission after deploy.
