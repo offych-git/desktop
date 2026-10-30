@@ -1,0 +1,28 @@
+name: GeoWork deploy to existing Netlify site
+on:
+  push:
+    paths:
+      - ".github/workflows/geowork-deploy-existing-netlify.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: geowork
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Install and verify
+        run: |
+          npm install --no-audit --no-fund
+          npm run check
+          npm run test:cms
+          npm run build
+      - name: Try publishing into already-owned geowork-preview site
+        run: |
+          npx --yes netlify-cli@latest deploy --site 1d85f0ff-af1c-4757-a9ad-07e4a58d0f36 --prod --dir=dist --no-build --json
