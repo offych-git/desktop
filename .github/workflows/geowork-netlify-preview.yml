@@ -1,8 +1,5 @@
 name: GeoWork temporary Netlify preview
 on:
-  push:
-    paths:
-      - ".github/workflows/geowork-netlify-preview.yml"
   workflow_dispatch:
 
 permissions:
