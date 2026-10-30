@@ -1,5 +1,8 @@
 name: Provision standalone GeoWork editorial CMS
 on:
+  push:
+    paths:
+      - ".github/workflows/geowork-cms-provision.yml"
   workflow_dispatch:
 permissions:
   contents: read
