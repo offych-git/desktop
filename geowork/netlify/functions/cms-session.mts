@@ -1,5 +1,5 @@
 import type { Config } from '@netlify/functions';
-import { verifyLogin,issueCookie,clearCookie,isAuthenticated,sameOrigin,json } from './_cms-auth.mts';
+import { verifyLogin,issueCookie,clearCookie,isAuthenticated,sameOrigin,json } from '../../src/server/cms-auth.mts';
 
 export default async function(req:Request) {
   if (req.method==='GET')return json({authenticated:isAuthenticated(req)});

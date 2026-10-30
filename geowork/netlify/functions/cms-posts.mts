@@ -1,7 +1,7 @@
 import type { Config } from '@netlify/functions';
 import { getDatabase } from '@netlify/database';
-import { isAuthenticated,sameOrigin,json,noAuth } from './_cms-auth.mts';
-import { validateArticle } from './_cms-content.mts';
+import { isAuthenticated,sameOrigin,json,noAuth } from '../../src/server/cms-auth.mts';
+import { validateArticle } from '../../src/server/cms-content.mts';
 
 type ArticleRecord={id:string;slug:string;title:string;description:string;category:string;body_html:string;cover_image:string|null;status:'draft'|'published';published_at:string|null;created_at:string;updated_at:string};
 export default async function(req:Request) {
