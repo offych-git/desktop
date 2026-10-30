@@ -10,7 +10,7 @@ npm run dev
 npm run build
 ```
 
-Astro builds static HTML. No runtime Node server is required.
+Astro 7 builds static HTML. Use a supported Node.js version (Node 24 recommended for development and deployment). No runtime Node server is required.
 
 ## 2. GitHub directory
 Current GitHub path: `offych-git/desktop/geowork`. The available GitHub integration can write a folder to an existing repository but cannot create a new repository. This folder is self-contained, and the project can be moved into a dedicated repo later. **If moved, update `public/admin/config.yml` paths**.
