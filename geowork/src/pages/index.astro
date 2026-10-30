@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CTA from '../components/CTA.astro';
+import { getCollection } from 'astro:content';
+const posts=(await getCollection('blog', ({data})=>!data.draft)).sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf()).slice(0,3);
+const services=[
+ {icon:'◎',tone:'',name:'AI Visibility Audit',copy:'Find out whether your brand appears in the AI-generated answers your buyers actually see.',href:'/services#visibility'},
+ {icon:'▦',tone:'cyan',name:'Technical GEO & AEO',copy:'Make your content accessible, structured, and clear to search engines and AI assistants.',href:'/services#technical'},
+ {icon:'✳',tone:'green',name:'Authority & Content',copy:'Build credible, source-worthy answers with expert content and a stronger entity footprint.',href:'/services#content'}
+];
+const faqs=[
+ {q:'What is GEO (Generative Engine Optimization)?',a:'GEO is the practice of improving how often and how accurately your business is represented in AI-generated search answers. It combines technical accessibility, clear information, expert content, and third-party credibility.'},
+ {q:'Can you guarantee a mention in ChatGPT or Google AI?',a:'No credible agency can guarantee a particular AI-generated answer, citation, or ranking. We track a defined set of prompts and focus on changes that can improve visibility over time.'},
+ {q:'Is traditional SEO still important?',a:'Yes. Search accessibility, high-quality pages, and authority signals remain an important foundation. GEO adds an AI-answer-focused measurement and execution layer.'},
+ {q:'How soon will we see results?',a:'The program is designed as a 12-month engagement. Some clients may begin seeing movement around month three, but timing depends on competition, existing visibility, and platform behavior.'}
+];
+---
+<BaseLayout title="GeoWork | Get Recommended by AI | GEO & AI Search Agency" description="GeoWork helps U.S. businesses become easier to discover, understand and cite across ChatGPT, Google AI, Perplexity, Claude and more. Explore GEO programs from $1,999/month.">
+  <section class="hero"><div class="container hero-grid">
+    <div>
+      <div class="eyebrow"><span class="eyebrow-dot"></span>GEO / AEO / AI SEARCH GROWTH</div>
+      <h1>Your next customer asks <span class="accent">AI.</span><br/>Will it recommend <span class="highlight-lime">you?</span></h1>
+      <p class="hero-copy">Buyers are getting recommendations before they ever see a list of links. We make your business easier for AI search to <strong>find, understand, and trust.</strong></p>
+      <div class="hero-actions"><a href="/contact" class="button button-purple">See where your brand stands <span aria-hidden="true">↗</span></a><a href="/how-it-works" class="button button-light">How GeoWork works <span aria-hidden="true">→</span></a></div>
+      <div class="trustline"><span>Built for AI discovery on</span><b>ChatGPT</b><b>Google AI</b><b>Perplexity</b><b>Claude</b></div>
+    </div>
+    <div class="hero-visual" aria-label="Illustration of how AI search could recommend a business">
+      <div class="dashboard-mock">
+        <div class="mock-topbar"><i></i><i></i><i></i><span class="mock-domain">Illustrative AI search result · example</span></div>
+        <div class="mock-body">
+          <div class="mock-label"><span class="spark">✦</span> An AI-powered recommendation</div>
+          <div class="mock-query">“What's the best provider for my business?”</div>
+          <div class="mock-answer"><div class="mock-ai">✧ AI ANSWER · ILLUSTRATION</div><p>Here are a few providers worth comparing. <span class="mock-mention">Your business</span> stands out for its clearly documented services, expertise and useful resources.</p><div class="mock-lines"><span></span><span></span><span></span></div><div class="mock-tag"><span aria-hidden="true">✓</span> Easy to discover. Easy to evaluate.</div></div>
+        </div>
+      </div>
+      <div class="mock-side"><strong>From invisible to considered.</strong><span>A clearer digital footprint puts your business in the conversation.</span></div>
+    </div>
+  </div></section>
+  <section class="section"><div class="container">
+    <div class="section-head"><div class="eyebrow"><span class="eyebrow-dot"></span>THE OPPORTUNITY</div><h2>Search is changing.<br/><span class="accent">Your strategy should, too.</span></h2><p>People are asking full questions and evaluating the answers. Being easy to find in traditional search is only part of the job now.</p></div>
+    <div class="grid-3">
+      <div class="card"><div class="icon-box">01</div><h3>Be found.</h3><p>Remove crawl barriers and help search systems discover the pages that matter.</p></div>
+      <div class="card"><div class="icon-box cyan">02</div><h3>Be understood.</h3><p>Clarify your services, expertise and entities with helpful copy and structured data.</p></div>
+      <div class="card"><div class="icon-box green">03</div><h3>Be trusted.</h3><p>Strengthen the proof behind your brand with useful research, transparent authorship and credible references.</p></div>
+    </div>
+  </div></section>
+  <section class="section soft-section"><div class="container">
+    <div class="section-head"><div class="eyebrow"><span class="eyebrow-dot"></span>WHAT WE DO</div><h2>One partner for your <span class="accent">AI visibility.</span></h2><p>Not a magic prompt trick. A measurable program connecting research, technical foundations, valuable content and authority.</p></div>
+    <div class="grid-3">
+      {services.map((service)=><article class="card"><div class={'icon-box '+service.tone}>{service.icon}</div><h3>{service.name}</h3><p>{service.copy}</p><a class="link-arrow" href={service.href}>Explore service ↗</a></article>)}
+    </div>
+    <div style="margin-top:30px"><a href="/services" class="link-arrow">Explore all our services ↗</a></div>
+  </div></section>
+  <section class="section"><div class="container">
+    <div class="section-head"><div class="eyebrow"><span class="eyebrow-dot"></span>A CLEAR PROCESS</div><h2>Less guessing. <span class="accent">More direction.</span></h2><p>Our four-stage program gives every task a reason and every report a baseline.</p></div>
+    <div class="steps-grid">
+      <div class="step-card"><div class="step-no">01</div><h3>Measure</h3><p>Review buyer prompts, brand mentions, citations, competitors and baseline Share of Voice.</p></div>
+      <div class="step-card"><div class="step-no">02</div><h3>Diagnose</h3><p>Identify the technical, content, entity and credibility gaps holding you back.</p></div>
+      <div class="step-card"><div class="step-no">03</div><h3>Execute</h3><p>Improve key pages, publish useful resources and strengthen outside references.</p></div>
+      <div class="step-card"><div class="step-no">04</div><h3>Track</h3><p>Monitor changes in visibility, citations and search traffic to inform the next sprint.</p></div>
+    </div>
+    <div style="margin-top:30px"><a href="/how-it-works" class="link-arrow">See the 12-month roadmap ↗</a></div>
+  </div></section>
+  <section class="section light-purple"><div class="container">
+    <div class="section-head"><div class="eyebrow"><span class="eyebrow-dot"></span>BUILT AROUND YOUR STAGE</div><h2>Clear scope. <span class="accent">Transparent pricing.</span></h2><p>Choose a starting point and scale the effort as your category gets more competitive.</p></div>
+    <div class="pricing-grid">
+      <article class="price-card"><div class="price-top"><div class="plan-name">Foundation</div><h3>$1,999 <small>/ mo</small></h3><p class="price-desc">Build a solid technical and content baseline.</p></div><div class="price-details"><ul><li>AI visibility audit & 1 competitor</li><li>21 articles per month</li><li>10 priority prompts tracked</li><li>Core technical optimization</li><li>Monthly reporting</li></ul><a class="button button-dark" href="/contact?plan=Foundation">Discuss Foundation ↗</a></div></article>
+      <article class="price-card featured"><div class="popular">Most popular</div><div class="price-top"><div class="plan-name">Growth</div><h3>$4,499 <small>/ mo</small></h3><p class="price-desc">Create momentum across content, citations and AI answers.</p></div><div class="price-details"><ul><li>Everything in Foundation</li><li>30 articles per month</li><li>30 priority prompts & 3 competitors</li><li>1 expert podcast + 20 social clips</li><li>Twice-monthly reports</li></ul><a class="button button-purple" href="/contact?plan=Growth">Discuss Growth ↗</a></div></article>
+      <article class="price-card"><div class="price-top"><div class="plan-name">Authority</div><h3>$6,499 <small>/ mo</small></h3><p class="price-desc">Build a deeper footprint in a competitive market.</p></div><div class="price-details"><ul><li>Everything in Growth</li><li>45 articles per month</li><li>50 priority prompts & 5 competitors</li><li>2 expert podcasts + 50 social clips</li><li>Advanced technical and entity work</li></ul><a class="button button-dark" href="/contact?plan=Authority">Discuss Authority ↗</a></div></article>
+    </div>
+    <div class="note-strip">12-month growth program · Save 10% with 6-month prepayment or 20% with 12-month prepayment · Specific deliverables are outlined in the plan details.</div>
+    <div style="margin-top:28px;text-align:center"><a href="/pricing" class="link-arrow">Compare all plan details ↗</a></div>
+  </div></section>
+  <section class="section"><div class="container">
+    <div class="section-head"><div class="eyebrow"><span class="eyebrow-dot"></span>LEARN THE NEW SEARCH</div><h2>Insights for the <span class="accent">AI-first buyer journey.</span></h2><p>Actionable ideas on visibility, citations, content and AI search measurement.</p></div>
+    <div class="insights-grid">{posts.map((post,i)=><article class="insight-card"><a class="insight-visual" href={'/blog/'+post.id}><span>{['AI','GEO','01'][i%3]}</span></a><div class="insight-content"><small>{post.data.category} · {post.data.readTime} MIN READ</small><h3><a href={'/blog/'+post.id}>{post.data.title}</a></h3><p>{post.data.description}</p><a class="link-arrow" href={'/blog/'+post.id}>Read article ↗</a></div></article>)}</div>
+    <div style="margin-top:30px"><a href="/blog" class="link-arrow">More insights ↗</a></div>
+  </div></section>
+  <section class="section-small soft-section"><div class="container">
+    <div class="section-head text-center" style="margin-inline:auto"><div class="eyebrow"><span class="eyebrow-dot"></span>COMMON QUESTIONS</div><h2>Questions about <span class="accent">GEO, answered.</span></h2></div>
+    <div class="faq-list">{faqs.map((f)=><details><summary>{f.q}</summary><p>{f.a}</p></details>)}</div>
+    <div style="text-align:center;margin-top:28px"><a href="/contact" class="link-arrow">Ask us a question ↗</a></div>
+  </div></section>
+  <CTA />
+</BaseLayout>

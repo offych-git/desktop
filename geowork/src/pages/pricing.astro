@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CTA from '../components/CTA.astro';
+const plans=[
+ {name:'Foundation',price:'$1,999',desc:'Get the essential foundations in place.',featured:false,items:['AI visibility audit across priority prompts','1 competitor benchmark','21 articles per month','10 priority prompts monitored','Basic technical GEO + SEO','1 report per month','Business-hours Telegram support']},
+ {name:'Growth',price:'$4,499',desc:'Build authority and measurable momentum.',featured:true,items:['Everything in Foundation','3 competitors benchmarked','30 articles per month','30 priority prompts monitored','Full structured data + author/trust pages','1 expert podcast → 1 YouTube video + 20 Reels (month 1)','Entity and citation-source strategy','2 reports per month + Google Analytics insights']},
+ {name:'Authority',price:'$6,499',desc:'Scale across more prompts and more sources.',featured:false,items:['Everything in Growth','5 competitors benchmarked','45 articles per month','50 priority prompts monitored','Advanced technical GEO + feeds / JSON endpoints','2 expert podcasts → 2 videos + 50 Reels (month 1)','Advanced entity & citation graph work','2 reports per month + monthly strategy call']}
+];
+const comparison=[
+ ['Articles / month','21','30','45'],
+ ['Priority prompts monitored','10','30','50'],
+ ['Competitors compared','1','3','5'],
+ ['Expert podcasts (month 1)','—','1 × 1 hour','2 × 1 hour'],
+ ['YouTube videos + ready-to-post Reels','—','1 + 20','2 + 50'],
+ ['Technical optimization','Basic','Standard','Advanced'],
+ ['SEO','Basic','Standard + report','Advanced'],
+ ['Author / trust pages','—','Included','Included'],
+ ['AI visibility reporting','1× / month','2× / month','2× / month + strategy call'],
+ ['Telegram support','Included','Included','Included']
+];
+const payment=[
+ ['Foundation','$1,999','$1,799','$1,599'],
+ ['Growth','$4,499','$4,049','$3,599'],
+ ['Authority','$6,499','$5,849','$5,199']
+];
+---
+<BaseLayout title="GEO Pricing & AI Search Optimization Plans | GeoWork" description="GeoWork monthly GEO pricing: Foundation $1,999, Growth $4,499, Authority $6,499. View deliverables and 6- or 12-month prepayment discounts.">
+  <section class="page-hero"><div class="container"><div class="eyebrow"><span class="eyebrow-dot"></span>PLANS & PRICING</div><h1>Serious AI visibility. <span class="accent">Clear investment.</span></h1><p>Three tiers. A defined scope. A 12-month program designed to build foundations, improve discoverability and measure progress.</p><a href="/contact" class="button button-purple">Get a custom recommendation ↗</a></div></section>
+  <section class="section"><div class="container"><div class="pricing-grid">
+    {plans.map(plan=><article class={'price-card'+(plan.featured?' featured':'')}>{plan.featured&&<div class="popular">Most popular</div>}<div class="price-top"><div class="plan-name">{plan.name}</div><h3>{plan.price}<small> / mo</small></h3><p class="price-desc">{plan.desc}</p></div><div class="price-details"><ul>{plan.items.map(item=><li>{item}</li>)}</ul><a href={'/contact?plan='+plan.name} class={'button '+(plan.featured?'button-purple':'button-dark')}>Request {plan.name} ↗</a></div></article>)}
+  </div><div class="note-strip">All plans start with a visibility audit. A 12-month growth program; multiple locations and enterprise scope can be quoted separately. We do not guarantee AI citations or rankings.</div></div></section>
+  <section class="section soft-section"><div class="container">
+    <div class="section-head"><div class="eyebrow"><span class="eyebrow-dot"></span>PLAN COMPARISON</div><h2>See what's <span class="accent">included.</span></h2></div>
+    <div style="overflow-x:auto"><table style="width:100%;border-collapse:separate;border-spacing:0;min-width:660px;background:#fff;border:1px solid #e3e7ef;border-radius:14px;overflow:hidden">
+      <thead><tr style="background:#101a35;color:#fff"><th scope="col" style="text-align:left;padding:18px">Deliverable</th>{plans.map(p=><th scope="col" style="padding:18px">{p.name}</th>)}</tr></thead>
+      <tbody>{comparison.map((row,i)=><tr style={'background:'+(i%2?'#f8f9fd':'#fff')}><th scope="row" style="padding:14px 18px;text-align:left;font-size:.9rem">{row[0]}</th>{row.slice(1).map(val=><td style="padding:14px 15px;text-align:center;font-size:.88rem;color:#4e5770">{val}</td>)}</tr>)}</tbody>
+    </table></div>
+  </div></section>
+  <section class="section"><div class="container">
+    <div class="section-head"><div class="eyebrow"><span class="eyebrow-dot"></span>PAYMENT OPTIONS</div><h2>Plan ahead. <span class="accent">Save up to 20%.</span></h2><p>Prepay six months for a 10% discount or the full twelve months for a 20% discount. The figures below show rounded effective monthly prices, not installment billing.</p></div>
+    <div style="overflow-x:auto"><table style="border-collapse:collapse;width:100%;min-width:620px;text-align:left">
+      <thead><tr style="background:#101a35;color:#fff"><th scope="col" style="padding:18px">Plan</th><th scope="col" style="padding:18px">Monthly</th><th scope="col" style="padding:18px">6 months upfront · −10%</th><th scope="col" style="padding:18px">12 months upfront · −20%</th></tr></thead>
+      <tbody>{payment.map((r,i)=><tr style={'background:'+(i%2?'#f7f8fc':'#fff')}><th scope="row" style="padding:20px">{r[0]}</th>{r.slice(1).map(v=><td style="padding:20px;font-weight:700">{v} <span style="font-size:.8rem;color:#7c8498;font-weight:400">/ mo*</span></td>)}</tr>)}</tbody>
+    </table></div><p style="font-size:.8rem;margin-top:12px">*Monthly-equivalent prices are rounded to whole dollars. Actual prepaid totals are calculated from the unrounded discounted rates and rounded to the nearest dollar.</p>
+    <div class="grid-3" style="margin-top:35px"><div class="card"><h3>Month to month</h3><p>Standard monthly rate throughout your 12-month program.</p></div><div class="card"><h3>6 months upfront</h3><p>10% off the rate for the prepaid six-month period.</p></div><div class="card"><h3>12 months upfront</h3><p>20% off the rate for the full program when paid in advance.</p></div></div>
+  </div></section>
+  <CTA label="LET'S FIND YOUR FIT" heading="Not sure which plan matches your market?" copy="Tell us about your business, target customers and competitors. We'll help you choose a realistic starting point." />
+</BaseLayout>
