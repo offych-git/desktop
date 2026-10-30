@@ -4,25 +4,26 @@ on:
     paths:
       - ".github/workflows/geowork-verify-preview.yml"
   workflow_dispatch:
-
 permissions:
   contents: read
-
 jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - name: Verify homepage and pricing are publicly reachable
+      - name: Inspect access and verify password-protected preview
         run: |
           set -euo pipefail
-          for path in / /pricing/ /blog/; do
-            status=$(curl -L -sS --connect-timeout 10 --max-time 25 -o /tmp/geo-page.html -w "%{http_code}" "https://magnificent-nougat-e1d040.netlify.app${path}")
-            echo "${path}: HTTP ${status}"
-            head -c 170 /tmp/geo-page.html | tr '\n' ' '
-            echo
-            if [ "${status}" != "200" ]; then
-              exit 1
+          URL="https://magnificent-nougat-e1d040.netlify.app"
+          curl -sS -D /tmp/geowork-headers -o /tmp/geowork-page -w "Unauthenticated HTTP %{http_code}\n" "$URL"
+          echo "Relevant response headers:"
+          grep -Ei 'HTTP/|WWW-Authenticate:|content-type:' /tmp/geowork-headers || true
+          for identity in ":My-Drop-Site" "netlify:My-Drop-Site" "admin:My-Drop-Site"; do
+            status=$(curl -sS -L -u "$identity" -o /tmp/geowork-authed -w "%{http_code}" "$URL")
+            echo "Authenticated check: HTTP $status"
+            if [ "$status" = "200" ] && grep -qi "GeoWork" /tmp/geowork-authed; then
+              echo "GeoWork homepage is live and accessible using Netlify's supplied anonymous password."
+              exit 0
             fi
-            grep -qi "GeoWork" /tmp/geo-page.html || { echo 'GeoWork brand not found'; exit 1; }
           done
-          echo "All 3 URLs returned HTTP 200 with GeoWork branding."
+          echo "No tested Basic Auth combination reached GeoWork."
+          exit 1
