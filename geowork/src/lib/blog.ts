@@ -12,8 +12,10 @@ export async function getBlogPosts():Promise<BlogPost[]>{
   content:{source:'local' as const,post}
  }));
  let remote:BlogPost[]=[];
+ let owned=new Set<string>();
  try{
   const rows=await listArticles();
+  owned=new Set(rows.map(row=>row.slug));
   remote=rows.filter(row=>row.status==='published').map(row=>{
    const words=row.body_html.replace(/<[^>]+>/g,' ').trim().split(/\s+/).length;
    return {
@@ -27,7 +29,6 @@ export async function getBlogPosts():Promise<BlogPost[]>{
  }catch(error){
   console.error('GeoWork content store unavailable; serving local sample articles only.',error);
  }
- const owned=new Set(remote.map(post=>post.slug));
  return [...remote,...local.filter(post=>!owned.has(post.slug))]
   .sort((a,b)=>b.date.getTime()-a.date.getTime());
 }
