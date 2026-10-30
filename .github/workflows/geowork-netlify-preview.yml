@@ -1,0 +1,33 @@
+name: GeoWork temporary Netlify preview
+on:
+  push:
+    paths:
+      - ".github/workflows/geowork-netlify-preview.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: geowork
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Build GeoWork
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+      - name: Publish temporary anonymous Netlify site
+        id: publish
+        run: |
+          set -o pipefail
+          npx --yes netlify-cli@latest deploy --allow-anonymous --prod --dir=dist --no-build --json | tee "$RUNNER_TEMP/geowork-deploy.json"
+          echo "### Temporary Netlify preview" >> "$GITHUB_STEP_SUMMARY"
+          cat "$RUNNER_TEMP/geowork-deploy.json" | jq -r '"Published URL: \\(.url // .deploy_url // .ssl_url // "see deploy output")"' >> "$GITHUB_STEP_SUMMARY"
+          echo "Anonymous Netlify deploys expire unless claimed within one hour. The existing geowork-preview Netlify project is not linked." >> "$GITHUB_STEP_SUMMARY"
