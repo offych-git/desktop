@@ -1,4 +1,4 @@
-name: Verify GeoWork Netlify temporary preview
+name: Inspect Netlify anonymous preview protection
 on:
   push:
     paths:
@@ -10,20 +10,12 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - name: Inspect access and verify password-protected preview
+      - name: Inspect 401 login page
         run: |
           set -euo pipefail
-          URL="https://magnificent-nougat-e1d040.netlify.app"
-          curl -sS -D /tmp/geowork-headers -o /tmp/geowork-page -w "Unauthenticated HTTP %{http_code}\n" "$URL"
-          echo "Relevant response headers:"
-          grep -Ei 'HTTP/|WWW-Authenticate:|content-type:' /tmp/geowork-headers || true
-          for identity in ":My-Drop-Site" "netlify:My-Drop-Site" "admin:My-Drop-Site"; do
-            status=$(curl -sS -L -u "$identity" -o /tmp/geowork-authed -w "%{http_code}" "$URL")
-            echo "Authenticated check: HTTP $status"
-            if [ "$status" = "200" ] && grep -qi "GeoWork" /tmp/geowork-authed; then
-              echo "GeoWork homepage is live and accessible using Netlify's supplied anonymous password."
-              exit 0
-            fi
-          done
-          echo "No tested Basic Auth combination reached GeoWork."
-          exit 1
+          curl -sSL -D /tmp/geowork-headers -o /tmp/geowork-body -w "HTTP %{http_code}\n" "https://magnificent-nougat-e1d040.netlify.app/"
+          echo "Headers:"
+          sed -n '1,40p' /tmp/geowork-headers
+          echo "Body first 2700 characters:"
+          head -c 2700 /tmp/geowork-body
+          echo
