@@ -9,6 +9,9 @@ on:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    env:
+      PUBLIC_SANITY_PROJECT_ID: hixm4vas
+      PUBLIC_SANITY_DATASET: production
     defaults:
       run:
         working-directory: geowork
