@@ -102,11 +102,11 @@
     byId('bodyEditor').innerHTML=post?.body_html||'';
     byId('statusBadge').textContent=post?.status==='published'?'● Published':'● Draft';
     byId('statusBadge').className='status-pill'+(post?.status==='published'?' live':'');
-    byId('updatedLabel').textContent=post?'Updated '+date(post.updated_at):'Not saved yet';
+    byId('updatedLabel').textContent=post?.starter?'Website starter article · save to make editable':(post?'Updated '+date(post.updated_at):'Not saved yet');
     byId('descCount').textContent=String((post?.description||'').length)+' / 400';
     byId('liveArticleLink').href=post?'/blog/'+post.slug:'#';
     byId('liveArticleLink').hidden=post?.status!=='published';
-    byId('deleteArticle').hidden=!post;
+    byId('deleteArticle').hidden=!post||Boolean(post.starter);
     renderCover();
     byId('title').focus();
     window.scrollTo({top:0});
@@ -144,7 +144,7 @@
     for(const id of ['saveDraft','publishArticle'])byId(id).disabled=true;
     try{
       const payload=gather(status);
-      const result=await api('/api/cms/posts',json(current?'PUT':'POST',payload));
+      const result=await api('/api/cms/posts',json(current&&!current.starter?'PUT':'POST',payload));
       setEditor(result.article);
       await load();
       flash(status==='published'?'Article published. Public page is now available.':'Draft saved.');
