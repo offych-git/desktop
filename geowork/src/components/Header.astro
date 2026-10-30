@@ -1,0 +1,29 @@
+---
+const path = Astro.url.pathname;
+const links = [
+  { href: '/services', label: 'Services' },
+  { href: '/how-it-works', label: 'How it works' },
+  { href: '/pricing', label: 'Pricing' },
+  { href: '/blog', label: 'Insights' },
+  { href: '/about', label: 'About' }
+];
+---
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="brand" aria-label="GeoWork home">
+      <span class="brand-symbol" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+      <span>geo<span class="brand-em">work</span><span class="brand-dot">.</span></span>
+    </a>
+    <nav class="desktop-navigation" aria-label="Main navigation">
+      {links.map((link) => <a href={link.href} aria-current={path === link.href ? 'page' : undefined}>{link.label}</a>)}
+    </nav>
+    <a class="button button-dark header-cta" href="/contact">Get a free visibility review <span aria-hidden="true">↗</span></a>
+    <details class="mobile-navigation">
+      <summary aria-label="Open navigation"><span></span><span></span><span></span></summary>
+      <nav aria-label="Mobile navigation">
+        {links.map((link) => <a href={link.href}>{link.label}</a>)}
+        <a href="/contact" class="mobile-contact">Get a free visibility review ↗</a>
+      </nav>
+    </details>
+  </div>
+</header>

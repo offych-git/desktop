@@ -1,0 +1,15 @@
+---
+interface Props { label?: string; heading?: string; copy?: string }
+const { label = 'READY TO BE FOUND?', heading = 'The next customer is asking AI. Will it mention you?', copy = "Let's find the gaps, map the opportunities, and make your brand easier to discover." } = Astro.props;
+---
+<section class="cta-section section">
+  <div class="container">
+    <div class="cta-panel">
+      <div class="cta-glow" aria-hidden="true"></div>
+      <div class="eyebrow eyebrow-light"><span class="eyebrow-dot"></span>{label}</div>
+      <h2>{heading}</h2>
+      <p>{copy}</p>
+      <div class="cta-actions"><a class="button button-lime" href="/contact">Get your visibility review <span aria-hidden="true">↗</span></a><a href="mailto:contact@geowork.us" class="cta-secondary">contact@geowork.us</a></div>
+    </div>
+  </div>
+</section>

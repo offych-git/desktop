@@ -1,0 +1,46 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+interface Props { title?: string; description?: string; path?: string; noindex?: boolean; image?: string }
+const { title = 'GeoWork | AI Search & GEO Agency', description = 'Get your brand found, understood, and recommended in ChatGPT, Google AI, Perplexity, Claude, and other AI search experiences. GEO strategies built for U.S. businesses.', path = Astro.url.pathname, noindex = false, image = '/og.svg' } = Astro.props;
+const canonical = new URL(path, 'https://geowork.us').toString();
+const ogImage = new URL(image, 'https://geowork.us').toString();
+const organization = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'GeoWork',
+  url: 'https://geowork.us',
+  email: 'contact@geowork.us',
+  description: 'AI search visibility and generative engine optimization services for U.S. businesses.',
+  logo: 'https://geowork.us/favicon.svg',
+  contactPoint: { '@type': 'ContactPoint', contactType: 'sales', email: 'contact@geowork.us', availableLanguage: ['English'] }
+};
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#101a35" />
+  <meta name="description" content={description} />
+  {noindex && <meta name="robots" content="noindex, nofollow" />}
+  <link rel="canonical" href={canonical} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="GeoWork" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={ogImage} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <title>{title}</title>
+  <script type="application/ld+json" set:html={JSON.stringify(organization)} />
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <Header />
+  <main id="main"><slot /></main>
+  <Footer />
+</body>
+</html>
