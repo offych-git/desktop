@@ -1,0 +1,26 @@
+name: GeoWork Astro build
+on:
+  push:
+    paths:
+      - "geowork/**"
+      - ".github/workflows/geowork-build.yml"
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: geowork
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Typecheck
+        run: npm run check
+      - name: Build static website
+        run: npm run build
