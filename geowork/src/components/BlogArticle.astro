@@ -5,6 +5,7 @@ import type { BlogPost } from '../lib/blog';
 const { post } = Astro.props as { post: BlogPost };
 let LocalContent: any = undefined;
 let html = '';
+const escapeAttr=(v:string)=>v.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 if (post.content.source === 'local') {
   const rendered = await render(post.content.post);
   LocalContent = rendered.Content;
@@ -12,10 +13,9 @@ if (post.content.source === 'local') {
   html = toHTML(post.content.blocks, {
     components: {
       types: {
-        image: ({ value }: { value: {asset?:{url?:string},alt?:string} }) => {
-          // Embedded images are intentionally omitted until transformed Sanity asset URLs
-          // are supplied by a verified server-side image renderer.
-          return '';
+        image: ({ value }: { value: {url?:string,alt?:string} }) => {
+          if (!value.url?.startsWith('https://cdn.sanity.io/images/')) return '';
+          return '<figure><img loading="lazy" width="900" style="max-width:100%;height:auto;border-radius:12px" src="' + escapeAttr(value.url) + '" alt="' + escapeAttr(value.alt||'') + '"/></figure>';
         }
       }
     }

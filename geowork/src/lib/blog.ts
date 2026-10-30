@@ -39,7 +39,7 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
   const dataset = import.meta.env.PUBLIC_SANITY_DATASET || 'production';
   const client = createClient({ projectId, dataset, apiVersion:'2026-10-01', useCdn:false, perspective:'published' });
   const remote = await client.fetch<SanityPost[]>(`*[_type == "post" && defined(slug.current) && draft != true && !(_id in path("drafts.**"))] | order(date desc) {
-    "slug": slug.current, title, description, date, category, readTime, body,
+    "slug": slug.current, title, description, date, category, readTime, body[]{ ..., _type == "image" => { ..., "url": asset->url } },
     "coverImage": select(defined(coverImage.asset) => { "url": coverImage.asset->url, "alt": coverImage.alt })
   }`);
   const mapped: BlogPost[] = remote.filter(p=>p.slug&&p.date).map(p=>({
