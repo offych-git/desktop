@@ -7,7 +7,6 @@
   let cover = null;
   let busy = false;
   let autoSlug = true;
-  const notices = [];
 
   async function api(path, options = {}) {
     const response = await fetch(path, { credentials:'same-origin', cache:'no-store', ...options });
@@ -89,6 +88,8 @@
   }
   function setEditor(post=null) {
     current=post;
+    byId('slug').readOnly=Boolean(post);
+    byId('slug').title=post?'To change the URL, create a new article.':'Choose a clear permanent URL slug.';
     cover=post?.cover_image||null;
     autoSlug=!post;
     byId('listView').hidden=true;

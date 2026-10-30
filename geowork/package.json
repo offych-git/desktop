@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "cms:password": "node scripts/hash-password.mjs"
+    "cms:password": "node scripts/hash-password.mjs",
+    "test:cms": "node --experimental-strip-types --test tests/*.test.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

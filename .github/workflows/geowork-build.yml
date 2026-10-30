@@ -9,9 +9,6 @@ on:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    env:
-      PUBLIC_SANITY_PROJECT_ID: hixm4vas
-      PUBLIC_SANITY_DATASET: production
     defaults:
       run:
         working-directory: geowork
@@ -25,5 +22,9 @@ jobs:
         run: npm install --no-audit --no-fund
       - name: Typecheck
         run: npm run check
-      - name: Build static website
+      - name: Test first-party CMS security helpers
+        run: npm run test:cms
+      - name: Build Astro website and editor
         run: npm run build
+      - name: Verify editor was bundled
+        run: test -f dist/admin/index.html && test -f dist/admin-geowork.js
