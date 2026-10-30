@@ -10,7 +10,7 @@ GeoWork now has a **first-party content management app**. No Sanity, GitHub Pers
 - Articles and images stored in **Netlify Blobs**: a site-wide document store, persistent across deploys.
 - Dynamic Astro blog and homepage render published CMS posts on the server without rebuilds; extra sitemap at `/sitemap-cms.xml`.
 - CMS sanitizes HTML before storing and uses conditional writes for safe updates. New article slugs are immutable after creation.
-- Three pre-existing Markdown starter articles remain public but are not yet editable in the CMS. To edit them, create an article using the same slug: the CMS version will replace the fallback.
+- The three original Markdown starter articles are listed in the admin. Their first save imports a copy into Netlify Blobs so subsequent edits are managed completely through the CMS.
 
 ## Activate client-owned hosting
 1. Connect the customer's existing Netlify site `geowork-preview` to GitHub `offych-git/desktop`, branch `main`, base directory `geowork`, build command `npm run build`, publish `dist`.
@@ -28,6 +28,6 @@ GeoWork now has a **first-party content management app**. No Sanity, GitHub Pers
 - **No separate paid database** is necessary for the initial small editorial site. Netlify Blobs is a document/object store suitable for light editorial workflows, not a transactional PostgreSQL database. The current implementation intentionally caps the article count at **500**. For larger teams, heavy traffic or advanced queries, migrate content storage to PostgreSQL.
 - It currently supports **one owner/editor login** set with environment variables, not a multi-user access management UI.
 - Blobs data is tied to the deployed Netlify site. Back up/export content and images before migrating hosting accounts.
-- The three original Markdown posts are read-only fallback content and need a one-time editorial migration to fully manage them.
+- The three original Markdown posts are available to edit via the admin; the first save imports them into Netlify Blobs while keeping the original files as fallbacks.
 - No credentials are included in source code; do not send passwords or tokens in chat.
 - Until GitHub is connected and the new Netlify deploy is published, the login is not operational. Astro's passing build does not imply a deployed, working CMS.
