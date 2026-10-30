@@ -1,7 +1,9 @@
 import type { Config } from '@netlify/functions';
 import { randomUUID } from 'node:crypto';
+import { marked } from 'marked';
+import { starterPosts } from '../../src/server/starter-posts';
 import { isAuthenticated,sameOrigin,json,noAuth } from '../../src/server/cms-auth.mts';
-import { validateArticle } from '../../src/server/cms-content.mts';
+import { validateArticle,cleanBody } from '../../src/server/cms-content.mts';
 import { listArticles,articleStore,articleKey,type ArticleRecord } from '../../src/server/articles-store.ts';
 
 const validId=(x:string)=>/^[a-f0-9-]{36}$/.test(x);
@@ -11,13 +13,28 @@ export default async function(req:Request) {
   const store=articleStore();
   const {searchParams}=new URL(req.url);
   if(req.method==='GET'){
+   const saved=await listArticles();
+   const owned=new Set(saved.map(post=>post.slug));
+   const initial=starterPosts.filter(post=>!owned.has(post.slug)).map(post=>{
+    const timestamp=post.date+'T12:00:00.000Z';
+    return {
+     id:'starter:'+post.slug,slug:post.slug,title:post.title,description:post.description,
+     category:post.category,body_html:cleanBody(marked.parse(post.markdown,{async:false})),
+     cover_image:null,status:'published' as const,published_at:timestamp,
+     created_at:timestamp,updated_at:timestamp,starter:true
+    };
+   });
    const id=searchParams.get('id');
    if(id){
+    if(id.startsWith('starter:')){
+     const starter=initial.find(item=>item.id===id);
+     return starter?json({article:starter}):json({error:'Article not found'},404);
+    }
     if(!validId(id))return json({error:'Invalid id'},400);
     const article=await store.get(articleKey(id),{type:'json',consistency:'strong'}) as ArticleRecord|null;
     return article?json({article}):json({error:'Article not found'},404);
    }
-   const articles=(await listArticles()).sort((a,b)=>b.updated_at.localeCompare(a.updated_at));
+   const articles=[...saved,...initial].sort((a,b)=>b.updated_at.localeCompare(a.updated_at));
    return json({articles});
   }
   if(!['POST','PUT','DELETE'].includes(req.method))return json({error:'Method not allowed'},405);
