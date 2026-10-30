@@ -11,8 +11,8 @@ export function cleanBody(html:unknown):string {
   allowedSchemesByTag:{img:[]},
   allowedStyles:{},
   transformTags:{
-    a:(tag,attrs)=>({tagName:'a',attribs:{href:attrs.href||'#',rel:'noopener noreferrer',target:'_blank'}}),
-    img:(tag,attrs)=>({
+    a:(_tag,attrs)=>({tagName:'a',attribs:{href:attrs.href||'#',rel:'noopener noreferrer',target:'_blank'}}),
+    img:(_tag,attrs)=>({
       tagName:'img',
       attribs:/^\/media\/[a-f0-9-]{36}$/.test(attrs.src||'')?{src:attrs.src,alt:(attrs.alt||'').slice(0,180),loading:'lazy'}:{alt:'Invalid image source'}
     })
