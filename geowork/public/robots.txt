@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 Sitemap: https://geowork.us/sitemap-index.xml
+Sitemap: https://geowork.us/sitemap-cms.xml

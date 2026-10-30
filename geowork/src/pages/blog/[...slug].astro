@@ -1,37 +1,35 @@
 ---
+export const prerender=false;
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CTA from '../../components/CTA.astro';
 import BlogArticle from '../../components/BlogArticle.astro';
-import { getBlogPosts, type BlogPost } from '../../lib/blog';
-export async function getStaticPaths() {
-  const posts=await getBlogPosts();
-  return posts.map(post => ({ params:{slug:post.slug},props:{post} }));
+import { getBlogPosts } from '../../lib/blog';
+
+const slug=Astro.params.slug||'';
+const post=(await getBlogPosts()).find(p=>p.slug===slug);
+if(!post){
+ return new Response('Article not found',{status:404,headers:{'content-type':'text/plain','x-robots-tag':'noindex'}});
 }
-interface Props { post: BlogPost }
-const { post } = Astro.props;
 const dateText=new Intl.DateTimeFormat('en-US',{month:'long',day:'numeric',year:'numeric'}).format(post.date);
 const jsonLd={
-  '@context':'https://schema.org',
-  '@type':'BlogPosting',
-  headline:post.title,
-  description:post.description,
-  datePublished:post.date.toISOString(),
-  author:{'@type':'Organization',name:'GeoWork'},
-  publisher:{'@type':'Organization',name:'GeoWork',url:'https://geowork.us'},
-  mainEntityOfPage:'https://geowork.us/blog/'+post.slug
+ '@context':'https://schema.org','@type':'BlogPosting',
+ headline:post.title,description:post.description,datePublished:post.date.toISOString(),
+ author:{'@type':'Organization',name:'GeoWork'},
+ publisher:{'@type':'Organization',name:'GeoWork',url:'https://geowork.us'},
+ mainEntityOfPage:'https://geowork.us/blog/'+post.slug
 };
 ---
-<BaseLayout title={post.title+' | GeoWork Insights'} description={post.description} path={'/blog/'+post.slug}>
-  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-  <section class="page-hero"><div class="container" style="max-width:850px">
-    <a href="/blog" class="link-arrow">← Back to insights</a>
-    <div class="eyebrow" style="display:flex;margin-top:35px"><span class="eyebrow-dot"></span>{post.category}</div>
-    <h1 style="font-size:clamp(2.5rem,4.7vw,4.5rem)">{post.title}</h1>
-    <p>{post.description}</p><div class="article-meta">{dateText} · {post.readTime} min read</div>
-  </div></section>
-  <section class="section"><div class="container"><article class="article-body">
-    {post.coverImage && <img src={post.coverImage.url} alt={post.coverImage.alt} loading="lazy" style="width:100%;height:auto;border-radius:18px;margin-bottom:30px" />}
-    <BlogArticle post={post}/>
-  </article></div></section>
-  <CTA label="TAKE THE NEXT STEP" heading="Ready to put these ideas to work?" />
+<BaseLayout title={post.title+' | GeoWork Insights'} description={post.description} path={'/blog/'+post.slug} image={post.coverImage?.url}>
+ <script type="application/ld+json" set:html={JSON.stringify(jsonLd)}/>
+ <section class="page-hero"><div class="container" style="max-width:850px">
+  <a href="/blog" class="link-arrow">← Back to insights</a>
+  <div class="eyebrow" style="display:flex;margin-top:35px"><span class="eyebrow-dot"></span>{post.category}</div>
+  <h1 style="font-size:clamp(2.5rem,4.7vw,4.5rem)">{post.title}</h1>
+  <p>{post.description}</p><div class="article-meta">{dateText} · {post.readTime} min read</div>
+ </div></section>
+ <section class="section"><div class="container"><article class="article-body">
+  {post.coverImage&&<img src={post.coverImage.url} alt={post.coverImage.alt} loading="lazy" style="width:100%;height:auto;border-radius:18px;margin-bottom:30px"/>}
+  <BlogArticle post={post}/>
+ </article></div></section>
+ <CTA label="TAKE THE NEXT STEP" heading="Ready to put these ideas to work?"/>
 </BaseLayout>

@@ -1,0 +1,93 @@
+---
+export const prerender=true;
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="robots" content="noindex,nofollow"/>
+<meta name="theme-color" content="#141e38"/>
+<link rel="icon" href="/favicon.svg"/>
+<link rel="stylesheet" href="/admin-geowork.css"/>
+<title>GeoWork — Content Manager</title>
+</head>
+<body>
+<div id="loginView" class="login-shell" hidden>
+ <form id="loginForm" class="login-card">
+  <a href="/" class="admin-brand"><span class="brand-mark">✳</span> geowork<span class="brand-dot">.</span></a>
+  <span class="overline">PRIVATE WORKSPACE</span>
+  <h1>Welcome back.</h1>
+  <p>Sign in to manage articles, drafts and published insights.</p>
+  <label for="loginEmail">Email address</label>
+  <input id="loginEmail" type="email" autocomplete="username" required/>
+  <label for="loginPassword">Password</label>
+  <input id="loginPassword" type="password" autocomplete="current-password" required/>
+  <button class="primary-btn" type="submit">Sign in <span>↗</span></button>
+  <div id="loginError" class="notice error" role="alert" hidden></div>
+  <small>GeoWork Content Manager · Authorized editors only</small>
+ </form>
+</div>
+<div id="workspace" class="workspace" hidden>
+ <aside class="sidebar">
+  <a href="/" class="admin-brand"><span class="brand-mark">✳</span> geowork<span class="brand-dot">.</span></a>
+  <p class="sidebar-label">CONTENT</p>
+  <button type="button" id="allPosts" class="side-action active">▤ &nbsp; Articles <span id="articleCount">0</span></button>
+  <button type="button" id="newPostSidebar" class="side-action">✚ &nbsp; New article</button>
+  <div class="sidebar-bottom">
+   <a href="/blog" target="_blank" rel="noopener">↗ &nbsp; View live blog</a>
+   <button type="button" id="signOut">⤴ &nbsp; Sign out</button>
+  </div>
+ </aside>
+ <main class="main">
+  <header class="topbar"><div class="breadcrumb">Workspace <span>/</span> <strong>Articles</strong></div><span class="workspace-chip"><span>●</span> GeoWork Studio</span></header>
+  <div class="page">
+   <section id="listView">
+    <div class="title-row"><div><span class="overline">CONTENT LIBRARY</span><h1>Articles</h1><p>Create, review and publish your GEO insights.</p></div><button id="newPost" class="primary-btn">+ &nbsp; New article</button></div>
+    <div class="filterbar"><input id="searchPosts" type="search" aria-label="Search articles" placeholder="Search your articles…"/><select id="filterStatus" aria-label="Filter status"><option value="">All statuses</option><option value="draft">Drafts</option><option value="published">Published</option></select></div>
+    <div id="postList" class="post-list" aria-live="polite"></div>
+    <p class="helper">The initial three website sample articles remain visible on the site. New articles created here are stored independently from GitHub.</p>
+   </section>
+   <section id="editorView" hidden>
+    <div class="editor-top"><button id="backToList" class="text-btn">← All articles</button><span class="overline">EDITOR</span></div>
+    <div class="title-row"><div><h1 id="editorTitle">New article</h1><p>Write a useful, trustworthy article for your audience.</p></div><div class="header-actions"><button id="saveDraft" class="secondary-btn">Save draft</button><button id="publishArticle" class="primary-btn">Publish article ↗</button></div></div>
+    <div class="editor-grid">
+     <div class="editor-main">
+      <div class="field"><label for="title">Article title</label><input id="title" maxlength="200" placeholder="e.g. How to Improve AI Search Visibility"/></div>
+      <div class="field"><label for="slug">URL slug</label><div class="slug-row"><span>/blog/</span><input id="slug" maxlength="110" placeholder="how-to-improve-ai-search"/></div></div>
+      <div class="field"><label for="description">SEO description</label><textarea id="description" rows="3" maxlength="400" placeholder="A concise summary shown in search results."></textarea><small class="char-count" id="descCount">0 / 400</small></div>
+      <div class="field"><label for="bodyEditor">Article body</label>
+       <div class="toolbar" role="toolbar" aria-label="Rich text formatting">
+        <button type="button" data-command="bold" title="Bold"><strong>B</strong></button>
+        <button type="button" data-command="italic" title="Italic"><i>I</i></button>
+        <span class="divider"></span>
+        <button type="button" data-block="h2">H2</button>
+        <button type="button" data-block="h3">H3</button>
+        <button type="button" data-block="p">¶</button>
+        <span class="divider"></span>
+        <button type="button" data-command="insertUnorderedList" title="Bullet list">☷</button>
+        <button type="button" data-command="insertOrderedList" title="Numbered list">≡</button>
+        <button type="button" id="insertLink">↗ Link</button>
+        <button type="button" id="insertImage">▧ Image</button>
+       </div>
+       <div id="bodyEditor" class="rich-editor" role="textbox" aria-label="Article body" aria-multiline="true" contenteditable="true" data-placeholder="Start writing your article here…"></div>
+      </div>
+     </div>
+     <aside class="editor-side">
+      <div class="panel"><h3>Publishing</h3><div class="status-pill" id="statusBadge">● &nbsp; Draft</div><p id="updatedLabel">Not saved yet</p><button id="previewArticle" class="secondary-btn stretch" type="button">Preview content ↗</button><a id="liveArticleLink" href="#" class="link" target="_blank" rel="noopener" hidden>View live article ↗</a></div>
+      <div class="panel"><h3>Details</h3><label for="category">Category</label><input id="category" value="AI Search" maxlength="90"/></div>
+      <div class="panel"><h3>Cover image</h3><p>JPG, PNG, WEBP or GIF. Up to 4 MB.</p><div id="coverPreview" class="cover-preview">No image added</div><input type="file" id="imageFile" accept="image/png,image/jpeg,image/webp,image/gif" hidden/><button type="button" id="uploadCover" class="secondary-btn stretch">Upload image</button><button type="button" id="removeCover" class="text-btn stretch">Remove image</button></div>
+      <button id="deleteArticle" type="button" class="danger-btn" hidden>Delete article</button>
+     </aside>
+    </div>
+   </section>
+   <div id="notice" class="notice" role="status" hidden></div>
+  </div>
+ </main>
+</div>
+<div id="previewOverlay" class="preview-overlay" hidden>
+ <div class="preview-dialog"><header><strong>Article preview</strong><button id="closePreview" class="secondary-btn" aria-label="Close preview">Close ✕</button></header><div id="previewContent" class="preview-content"></div></div>
+</div>
+<script src="/admin-geowork.js" defer></script>
+</body>
+</html>
