@@ -1,0 +1,35 @@
+# Editing requires a GitHub account with write access to offych-git/desktop.
+# Since the Astro site lives in /geowork in this repository, paths below are repository-root-relative.
+# Use a fine-grained GitHub token (Contents read/write) or configure an OAuth gateway before using OAuth.
+backend:
+  name: github
+  repo: offych-git/desktop
+  branch: main
+  auth_methods:
+    - token
+
+site_url: https://geowork.us
+display_url: https://geowork.us
+logo_url: /favicon.svg
+media_folder: geowork/public/uploads
+public_folder: /uploads
+publish: true
+collections:
+  - name: blog
+    label: Blog articles
+    label_singular: Article
+    folder: geowork/src/content/blog
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    identifier_field: title
+    summary: "{{title}} — {{date}}"
+    fields:
+      - { label: Title, name: title, widget: string, required: true }
+      - { label: Description, name: description, widget: text, required: true }
+      - { label: Publish date, name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: true }
+      - { label: Category, name: category, widget: string, default: "AI Search" }
+      - { label: Minutes to read, name: readTime, widget: number, value_type: int, min: 1, default: 5 }
+      - { label: Draft, name: draft, widget: boolean, default: false }
+      - { label: Article body, name: body, widget: markdown, required: true }

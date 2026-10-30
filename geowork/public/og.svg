@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<defs><linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#111a34"/><stop offset="1" stop-color="#352076"/></linearGradient></defs>
+<rect width="1200" height="630" fill="url(#bg)"/>
+<circle cx="1050" cy="85" r="310" fill="#7552e6" opacity=".22"/>
+<circle cx="1030" cy="540" r="230" fill="#c9ff79" opacity=".06"/>
+<text x="75" y="122" font-family="Arial,sans-serif" font-weight="bold" font-size="45" fill="white">geo<tspan fill="#bcabff">work</tspan><tspan fill="#c9ff79">.</tspan></text>
+<text x="75" y="290" font-family="Arial,sans-serif" font-weight="bold" font-size="79" fill="white">Get recommended</text>
+<text x="75" y="388" font-family="Arial,sans-serif" font-weight="bold" font-size="79" fill="#c9ff79">by AI.</text>
+<text x="75" y="470" font-family="Arial,sans-serif" font-size="28" fill="#c2cbe5">AI Search · GEO · AEO · LLMO</text>
+<text x="75" y="560" font-family="Arial,sans-serif" font-size="25" fill="white">geowork.us</text>
+</svg>

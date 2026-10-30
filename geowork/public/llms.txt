@@ -1,0 +1,16 @@
+# GeoWork
+> GEO and AI search visibility services for U.S. businesses.
+Website: https://geowork.us
+Contact: contact@geowork.us
+
+## Main pages
+- https://geowork.us/ — Introduction to GeoWork
+- https://geowork.us/services — AI visibility audits, technical GEO, content, and measurement
+- https://geowork.us/how-it-works — Our process and 12-month roadmap
+- https://geowork.us/pricing — Service plans and deliverables
+- https://geowork.us/about — About GeoWork
+- https://geowork.us/contact — Contact and inquiry form
+- https://geowork.us/blog — Educational articles
+
+## Notes
+GeoWork does not guarantee AI answer citations, rankings, or recommendations.
