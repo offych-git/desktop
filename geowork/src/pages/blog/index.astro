@@ -1,12 +1,12 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CTA from '../../components/CTA.astro';
-import { getCollection } from 'astro:content';
-const posts=(await getCollection('blog',({data})=>!data.draft)).sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf());
+import { getBlogPosts } from '../../lib/blog';
+const posts=await getBlogPosts();
 const fmt=(date:Date)=>new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric',year:'numeric'}).format(date);
 ---
 <BaseLayout title="AI Search, GEO & AEO Insights | GeoWork Blog" description="Discover practical insights on GEO, AI search visibility, structured data, citation tracking and content strategy for U.S. businesses." path="/blog">
 <section class="page-hero"><div class="container"><div class="eyebrow"><span class="eyebrow-dot"></span>THE GEOWORK JOURNAL</div><h1>Better questions.<br/><span class="accent">Better visibility.</span></h1><p>Ideas, explainers and practical guidance for building a brand that is easier to find and understand in AI-powered search.</p></div></section>
-<section class="section"><div class="container"><div class="insights-grid">{posts.map((post,i)=><article class="insight-card"><a class="insight-visual" href={'/blog/'+post.id} aria-label={'Read '+post.data.title}><span>{['AI','GEO','01','✳'][i%4]}</span></a><div class="insight-content"><small>{post.data.category} · {fmt(post.data.date)} · {post.data.readTime} MIN READ</small><h3><a href={'/blog/'+post.id}>{post.data.title}</a></h3><p>{post.data.description}</p><a href={'/blog/'+post.id} class="link-arrow">Read article ↗</a></div></article>)}</div></div></section>
+<section class="section"><div class="container"><div class="insights-grid">{posts.map((post,i)=><article class="insight-card"><a class="insight-visual" href={'/blog/'+post.slug} aria-label={'Read '+post.title}><span>{['AI','GEO','01','✳'][i%4]}</span></a><div class="insight-content"><small>{post.category} · {fmt(post.date)} · {post.readTime} MIN READ</small><h3><a href={'/blog/'+post.slug}>{post.title}</a></h3><p>{post.description}</p><a href={'/blog/'+post.slug} class="link-arrow">Read article ↗</a></div></article>)}</div></div></section>
 <CTA label="QUESTIONS ABOUT YOUR BUSINESS?" heading="Let's map your AI visibility opportunity." />
 </BaseLayout>

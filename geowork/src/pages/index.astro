@@ -1,8 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CTA from '../components/CTA.astro';
-import { getCollection } from 'astro:content';
-const posts=(await getCollection('blog', ({data})=>!data.draft)).sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf()).slice(0,3);
+import { getBlogPosts } from '../lib/blog';
+const posts=(await getBlogPosts()).slice(0,3);
 const services=[
  {icon:'◎',tone:'',name:'AI Visibility Audit',copy:'Find out whether your brand appears in the AI-generated answers your buyers actually see.',href:'/services#visibility'},
  {icon:'▦',tone:'cyan',name:'Technical GEO & AEO',copy:'Make your content accessible, structured, and clear to search engines and AI assistants.',href:'/services#technical'},
@@ -73,7 +73,7 @@ const faqs=[
   </div></section>
   <section class="section"><div class="container">
     <div class="section-head"><div class="eyebrow"><span class="eyebrow-dot"></span>LEARN THE NEW SEARCH</div><h2>Insights for the <span class="accent">AI-first buyer journey.</span></h2><p>Actionable ideas on visibility, citations, content and AI search measurement.</p></div>
-    <div class="insights-grid">{posts.map((post,i)=><article class="insight-card"><a class="insight-visual" href={'/blog/'+post.id}><span>{['AI','GEO','01'][i%3]}</span></a><div class="insight-content"><small>{post.data.category} · {post.data.readTime} MIN READ</small><h3><a href={'/blog/'+post.id}>{post.data.title}</a></h3><p>{post.data.description}</p><a class="link-arrow" href={'/blog/'+post.id}>Read article ↗</a></div></article>)}</div>
+    <div class="insights-grid">{posts.map((post,i)=><article class="insight-card"><a class="insight-visual" href={'/blog/'+post.slug}><span>{['AI','GEO','01'][i%3]}</span></a><div class="insight-content"><small>{post.category} · {post.readTime} MIN READ</small><h3><a href={'/blog/'+post.slug}>{post.title}</a></h3><p>{post.description}</p><a class="link-arrow" href={'/blog/'+post.slug}>Read article ↗</a></div></article>)}</div>
     <div style="margin-top:30px"><a href="/blog" class="link-arrow">More insights ↗</a></div>
   </div></section>
   <section class="section-small soft-section"><div class="container">
