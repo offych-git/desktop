@@ -12,14 +12,15 @@
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
     "astro": "^7.4.4",
-    "@astrojs/react": "^5.1.0",
-    "@portabletext/to-html": "^3.0.0",
-    "@sanity/astro": "^3.2.0",
-    "@sanity/client": "^7.14.0",
-    "sanity": "^4.20.0",
+    "@astrojs/react": "^7.1.0",
+    "@portabletext/to-html": "^6.0.0",
+    "@sanity/astro": "^3.6.0",
+    "@sanity/client": "^8.11.0",
+    "sanity": "^6.20.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "styled-components": "^6.1.19"
+    "styled-components": "^6.1.19",
+    "@portabletext/types": "^4.0.2"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
